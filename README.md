@@ -17,10 +17,19 @@ $ npm install
 ## Usage
 ```bash
 # To develop & write
-$ yarn develop
+$ npm run develop
+
+#or
+
+$ gastby develop
 
 # To build
-$ yarn build
+$ npm run build
+
+#or
+
+$ gastby build
+
 ```
 
 ## Some Links
