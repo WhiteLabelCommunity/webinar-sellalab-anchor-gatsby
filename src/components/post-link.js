@@ -1,21 +1,18 @@
 import React from "react"
 import { Link } from "gatsby"
 
-const PostLink = ({ post }) => (
-  <article className="card ">
-    <Link to={post.frontmatter.path}>
-      {!!post.frontmatter.thumbnail && (
-        <img src={post.frontmatter.thumbnail} alt={post.frontmatter.title + "- Featured Shot"} />
-      )}
-    </Link>
+const PostLink = ( {node} ) => {
+  console.log(node)
+
+  return <article className="card ">
     <header>
       <h2 className="post-title">
-        <Link to={post.frontmatter.path} className="post-link">
-          {post.frontmatter.title}
+        <Link to={"episode/"+node.id} className="post-link">
+          {node.title}
         </Link>
       </h2>
-      <div className="post-meta">{post.frontmatter.date}</div>
+      <div className="post-meta">{node.isoDate}</div>
     </header>
   </article>
-)
+}
 export default PostLink

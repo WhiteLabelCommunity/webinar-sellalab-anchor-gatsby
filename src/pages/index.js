@@ -8,13 +8,12 @@ import HeroHeader from "../components/heroHeader"
 const IndexPage = ({
   data: {
     site,
-    allMarkdownRemark: { edges },
+    allAnchorEpisode: { nodes },
   },
 }) => {
 
-  const Posts = edges
-    .filter(edge => !!edge.node.frontmatter.date) // You can filter your posts based on some criteria
-    .map(edge => <PostLink key={edge.node.id} post={edge.node} />)
+  const Posts = nodes
+    .map(node => <PostLink key={node.id} node={node} />)
 
   return (
     <Layout>
@@ -23,7 +22,7 @@ const IndexPage = ({
         <meta name="description" content={site.siteMetadata.description} />
       </Helmet>
       <HeroHeader/>
-      <h2>Blog Posts &darr;</h2>
+      <h2>Episodi &darr;</h2>
       <div className="grids">
         {Posts}
       </div>
@@ -40,18 +39,15 @@ export const pageQuery = graphql`
         description
       }
     }
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
-      edges {
-        node {
-          id
-          excerpt(pruneLength: 250)
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY")
-            path
-            title
-            thumbnail
-          }
-        }
+    allAnchorEpisode(sort: {order: DESC, fields: isoDate}) {
+      nodes {
+        id
+        title
+        link
+        content
+        guid
+        isoDate(formatString: "DD-MM-YYYY")
+        contentSnippet
       }
     }
   }

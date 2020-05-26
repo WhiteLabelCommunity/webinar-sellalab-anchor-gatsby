@@ -7,17 +7,15 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allMarkdownRemark(
-        sort: { order: DESC, fields: [frontmatter___date] }
-        limit: 1000
-      ) {
-        edges {
-          node {
-            id
-            frontmatter {
-              path
-            }
-          }
+      allAnchorEpisode(sort: {order: DESC, fields: isoDate}) {
+        nodes {
+          id
+          title
+          link
+          content
+          guid
+          isoDate(formatString: "DD-MM-YYYY")
+          contentSnippet
         }
       }
     }
@@ -29,11 +27,14 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+  result.data.allAnchorEpisode.nodes.forEach(( node ) => {
+    console.log("pagina:",node)
     createPage({
-      path: node.frontmatter.path,
+      path: "episode/"+node.id,
       component: blogPostTemplate,
-      context: {}, // additional data can be passed via context
+      context: {
+        id: node.id
+      }, // additional data can be passed via context
     })
   })
 }
